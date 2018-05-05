@@ -1,13 +1,14 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class MainFrame extends JFrame{
+public class MainFrame3 extends JFrame{
     private JButton jbtnAdd = new JButton("<---");
     private JButton  LessAdd = new JButton("--->");
     private JButton ExitAdd = new JButton("Exit");
     private JLabel jlbAdd = new JLabel(">_<");
+    private JTextField jtf = new JTextField("10");
     public int count = 0;
-    public MainFrame(){
+    public MainFrame3(){
         init();
     }
     private void init(){
@@ -27,7 +28,8 @@ public class MainFrame extends JFrame{
         jlbAdd.setBounds(count,200,120,30);
         this.add(jlbAdd);
 
-
+        jtf.setBounds(100,200,30,40);
+        this.add(jtf);
 
 
         this.add(ExitAdd);
@@ -36,7 +38,7 @@ public class MainFrame extends JFrame{
         jbtnAdd.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                count+=10;
+                count+=Integer.parseInt(jtf.getText());
                 jlbAdd.setLocation(count,120);
 
 
@@ -45,7 +47,7 @@ public class MainFrame extends JFrame{
         LessAdd.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                count-=10;
+                count-=Integer.parseInt(jtf.getText());
                 jlbAdd.setLocation(count,120);
 
             }
@@ -60,3 +62,4 @@ public class MainFrame extends JFrame{
 
     }
 }
+
