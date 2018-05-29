@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainFrame9 extends JFrame {
     private Container cp;
@@ -11,7 +13,7 @@ public class MainFrame9 extends JFrame {
     private JPanel jpl1 = new JPanel();
     private JPanel jpl2 = new JPanel(new GridLayout(1, 6, 3, 3));
     private ImageIcon icon = new ImageIcon("11.png");
-    private Timer t1;
+    private Timer t1,tim2;
     private JButton run = new JButton("run");
     private JButton high = new JButton("上");
     private JButton down = new JButton("下");
@@ -19,6 +21,10 @@ public class MainFrame9 extends JFrame {
     private JButton ght = new JButton("右");
     private JButton Exit = new JButton("exit");
     private int dirFlg = 1, objx = 0, objy = 0, objw = 285, objh = 285;
+    private boolean jlbflag = false;
+    private int tarX,tarY;
+    private float m = 0.0f ;
+    int newjlbX , newjlbY;
 
     public MainFrame9() {
         inint();
@@ -43,8 +49,49 @@ public class MainFrame9 extends JFrame {
         jpl1.add(jlb);
 
 
+
+
         cp.add(jpl1, BorderLayout.CENTER);
         cp.add(jpl2, BorderLayout.SOUTH);
+
+
+
+        jlb.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                jlbflag = true;
+            }
+        });
+        tim2 = new Timer(20, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(Math.abs(jlb.getX() - tarX)< 30 && Math.abs(jlb.getY()-tarY)<30){
+                    tim2.stop();
+                }else {
+                    if(jlb.getX() - tarX <0){
+                        newjlbX = jlb.getX()+1;
+                    }else {
+                        newjlbX = jlb.getY()-1;
+                    }
+                    newjlbY = Math.round(m * (float)(newjlbX - tarX)+ tarY);
+                    jlb.setLocation(newjlbX,newjlbY);
+                }
+            }
+
+
+        });
+        jlb.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                if(jlbflag){
+                    tarX = mouseEvent.getX();
+                    tarY = mouseEvent.getY();
+                    m = (float)(tarY - jlb.getY())/(float)(tarX -jlb.getX());
+                    tim2.start();
+                    jlbflag = false;
+                }
+            }
+        });
         run.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
